@@ -17,11 +17,12 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit test framework.
-    testImplementation 'junit:junit:4.13.2'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.+'
 
-    // This dependency is used by the application.
-    implementation 'com.google.guava:guava:31.1-jre'
+    testImplementation 'io.cucumber:cucumber-java:6.8.+'
+    testImplementation 'io.cucumber:cucumber-junit:6.8.+'
+
+    testImplementation 'io.rest-assured:rest-assured:4.3.+'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
