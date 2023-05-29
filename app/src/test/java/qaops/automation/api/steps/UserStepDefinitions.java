@@ -43,7 +43,7 @@ public class UserStepDefinitions {
 
 
 
-    // CENÁRIOS SEMELHANTES - MAIS ESPECÍFICOS
+    // CENARIOS SEMELHANTES - MAIS ESPECIFICOS
     /*
     @Quando("eu faco um POST para {word} com os seguintes valores:")
     public void facoUmPOSTParaEPComOsSeguintesValores(String endpoint, Map<String, String> user) {
