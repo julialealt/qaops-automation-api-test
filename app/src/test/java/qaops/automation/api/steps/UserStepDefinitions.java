@@ -5,6 +5,7 @@ import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
 import io.restassured.http.ContentType;
 import org.apache.http.HttpStatus;
+import qaops.automation.api.support.domain.User;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,27 +16,29 @@ import static org.hamcrest.CoreMatchers.is;
 
 public class UserStepDefinitions {
 
+    private static final String CREATE_USER_ENDPOINT = "/v3/user";
+    private static final String USER_ENDPOINT = "/v3/user/{name}";
+
     private Map<String, String> expectedUser = new HashMap<>();
+    private User user;
 
     @Quando("eu faco um POST para {word} com os seguintes valores:")
-    public void facoUmPOSTParaVUserComOsSeguintesValores(String endpoint, Map<String, String> user) {
+    public void facoUmPOSTParaEPComOsSeguintesValores(String endpoint, Map<String, String> user) {
         expectedUser = user;
 
         given().
-                contentType(ContentType.JSON).
+                body(user).
         when().
-                post("http://localhost:12345/api" + endpoint).
+                post(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK);
     }
 
-    @Entao("quando faco um GET para {word}, o usuário criado é retornado")
-    public void quandoFacoUmGETParaVUserRafaelOUsuarioCriadoERetornado(String endpoint) {
+    @Entao("quando faco um GET para {word}, o usuario criado eh retornado")
+    public void quandoFacoUmGETParaEPOUsuarioCriadoERetornado(String endpoint) {
         when().
-                post("http://localhost:12345/api" + endpoint).
+                get(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK).
                 body("username", is(expectedUser.get("username")));
     }
@@ -45,12 +48,35 @@ public class UserStepDefinitions {
         expectedUser.put("username", "theUser");
 
         given().
-                contentType(ContentType.JSON).
                 body(docstring.getContent()).
         when().
-                post("http://localhost:12345/api" + endpoint).
+                post(endpoint).
         then().
-                contentType(ContentType.JSON).
                 statusCode(HttpStatus.SC_OK);
+    }
+
+
+    @Quando("crio um usuario")
+    public void crioUmUsuario() {
+        user = User.builder().build();
+
+        given().
+                body(user).
+        when().
+                post(CREATE_USER_ENDPOINT).
+        then().
+                statusCode(HttpStatus.SC_OK);
+
+    }
+
+    @Entao("o usuario eh salvo no sistema")
+    public void oUsuarioESalvoNoSistema() {
+        given().
+            pathParam("name", user.getUsername()).
+        when().
+            get(USER_ENDPOINT).
+        then().
+            statusCode(HttpStatus.SC_OK).
+            body("username", is(user.getUsername()));
     }
 }
