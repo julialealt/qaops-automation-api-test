@@ -3,8 +3,11 @@ package qaops.automation.api.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cucumber.java.pt.Dado;
+import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Entao;
 import io.cucumber.java.pt.Quando;
+import io.restassured.response.Response;
+import org.apache.http.HttpStatus;
 import qaops.automation.api.support.api.PetApi;
 import qaops.automation.api.support.domain.Pet;
 
@@ -41,5 +44,20 @@ public class PetStepDefinitions {
         @Entao("eu recebo a lista de animais available")
         public void euReceboAListaDeAnimaisAvailable() {
                 assertThat(actualPets, is(not(empty())));
+        }
+
+        @E("eu recebo uma outra lista de animais {word}")
+        public void euReceboUmaOutraListaDeAnimaisAvailable(String status) {
+                Response actualAvailablePetsResponse = petApi.getPetsResponseByStatus(status);
+
+                actualPets = actualAvailablePetsResponse.body().jsonPath().getList("", Pet.class);
+
+                actualAvailablePetsResponse.
+                        then().
+                                statusCode(HttpStatus.SC_OK).
+                                body(
+                                        "size()", is(actualPets.size()),
+                                        "findAll { it.status == '"+status+"' }.size()", is(actualPets.size())
+                                );
         }
 }

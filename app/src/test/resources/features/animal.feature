@@ -6,4 +6,6 @@
       Dado que eu possua animais available
       Quando eu pesquiso por todos os animais available
       Entao eu recebo a lista de animais available
+#     Passo desnecessario, somente para exemplos
+      E eu recebo uma outra lista de animais available
 

@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-<<<<<<< HEAD
+
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.+'
 
     testImplementation 'io.cucumber:cucumber-java:6.8.+'
@@ -31,10 +31,9 @@ dependencies {
 
     testCompileOnly 'org.projectlombok:lombok:1.18.28'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.28'
-=======
+
     // Use JUnit test framework.
     testImplementation 'junit:junit:4.+'
->>>>>>> 8cc28791ae88fa3847f5c98594f945640d0df0f0
 }
 
 java {
