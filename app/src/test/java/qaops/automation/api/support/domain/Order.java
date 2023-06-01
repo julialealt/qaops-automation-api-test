@@ -1,17 +1,13 @@
 package qaops.automation.api.support.domain;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.Arrays;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Store {
+public class Order {
     private int id;
     private int petId;
     private int quantity;

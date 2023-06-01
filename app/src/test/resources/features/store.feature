@@ -1,6 +1,8 @@
 #language: pt
 
-Funcionalidade: Gerenciamento dos pedidos da Loja
+Funcionalidade: Gerenciamento de pedidos da loja
 
-  Cenario: Um cenario
-    Quando something
+  Cenario: Cliente cria um pedido na loja
+    Dado que eu possua animal available
+    Quando faco o pedido desse animal
+    Entao o pedido eh aprovado
