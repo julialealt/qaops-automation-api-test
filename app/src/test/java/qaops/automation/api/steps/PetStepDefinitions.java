@@ -20,6 +20,7 @@ public class PetStepDefinitions {
 
         private PetApi petApi;
         private List<Pet> actualPets;
+        private Response actualPetsResponse;
 
         public PetStepDefinitions() {
                 petApi = new PetApi();
@@ -69,5 +70,31 @@ public class PetStepDefinitions {
         @Dado("que eu nao possua animais {word}")
         public void queEuNaoPossuaAnimaisSold(String status) {
                 petApi.deletePetsByStatus(status);
+        }
+
+        @Quando("pesquiso por todos os animais {word}")
+        public void pesquisoPorTodosOsAnimaisAvailable(String status) {
+                actualPetsResponse = petApi.getPetsResponseByStatus(status);
+        }
+
+
+        @Entao("recebo a lista com {int} animais {word}")
+        public void receboAListaComAnimaisAvailable(int petsQuantity, String status) {
+                actualPetsResponse.
+                        then().
+                                statusCode(HttpStatus.SC_OK).
+                                body(
+                                "size()", is(petsQuantity),
+                                        "findAll { it.status == '" + status + "' }.size()", is(petsQuantity)
+                                );
+        }
+
+        @E("{int} animais possuem o nome {word}")
+        public void animaisPossuemONomeLion(int petsQuantity, String petsName) {
+                actualPetsResponse.
+                        then().
+                                body(
+                                        "findAll { it.name.contains('" + petsName + "') }.size()", is(petsQuantity)
+                                );
         }
 }

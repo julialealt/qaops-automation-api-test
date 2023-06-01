@@ -32,3 +32,11 @@
     Exemplos: Animais sem estoque
       | estado | quantidade |
       | sold   | 0          |
+
+
+    Cenario: Lista animais disponiveis para venda
+      Dado que eu possua animais available
+      Quando pesquiso por todos os animais available
+      Entao recebo a lista com 7 animais available
+      E 3 animais possuem o nome Lion
+
