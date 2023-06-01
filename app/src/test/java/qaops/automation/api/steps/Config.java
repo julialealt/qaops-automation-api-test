@@ -6,14 +6,17 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import qaops.automation.api.support.api.PetApi;
 import qaops.automation.api.support.api.UserApi;
 
 public class Config {
 
-    private final UserApi userApi;
+    private UserApi userApi;
+    private PetApi petApi;
 
     public Config() {
         userApi = new UserApi();
+        petApi = new PetApi();
     }
 
     @Before
@@ -38,5 +41,10 @@ public class Config {
     public void deleteAllUsers() {
 
         userApi.deleteAllUsers();
+    }
+
+    @After("@DeleteExtraPets")
+    public void deleteExtraPets() {
+        petApi.deleteExtraPets("available");
     }
 }

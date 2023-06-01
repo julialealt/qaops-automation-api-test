@@ -7,6 +7,7 @@ import io.restassured.specification.RequestSpecification;
 import org.apache.http.HttpStatus;
 import qaops.automation.api.support.domain.Pet;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
@@ -61,6 +62,28 @@ public class PetApi {
         then().
             statusCode(HttpStatus.SC_OK).
             extract().body().as(Pet.class);
+    }
+
+    public void deleteExtraPets(String status) {
+        List<Integer> petsId = given().
+            pathParam("status", status).
+        when().
+            get(FIND_PETS_BY_STATUS_ENDPOINT).
+        thenReturn().
+            path("id");
+
+        List<Integer> petsToKeep = Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+
+        for(int petId : petsId) {
+            if(!petsToKeep.contains(petId)) {
+                given().
+                    pathParam("id", petId).
+                when().
+                    delete(PET_ENDPOINT).
+                then().
+                    statusCode(HttpStatus.SC_OK);
+            }
+        }
     }
 
 }
