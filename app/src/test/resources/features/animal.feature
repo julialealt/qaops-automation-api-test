@@ -9,3 +9,26 @@
 #     Passo desnecessario, somente para exemplos
       E eu recebo uma outra lista de animais available
 
+    Cenario: Lista somente animais pending
+      Dado que eu possua animais pending
+      Quando eu pesquiso por todos os animais pending
+      Entao eu recebo a lista com 2 animais
+
+    Cenario: Nao lista nenhum animal
+      Dado que eu nao possua animais sold
+      Quando eu pesquiso por todos os animais sold
+      Entao eu recebo a lista com 0 animal
+
+    Esquema do Cenario: Lista animais pelo seu estado de venda
+      Dado que eu nao possua animais sold
+      Quando eu pesquiso por todos os animais <estado>
+      Entao eu recebo a lista com <quantidade> animais
+
+    Exemplos: Animais em estoque
+      | estado    | quantidade |
+      | available | 7          |
+      | pending   | 2          |
+
+    Exemplos: Animais sem estoque
+      | estado | quantidade |
+      | sold   | 0          |

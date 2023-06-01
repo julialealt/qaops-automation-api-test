@@ -25,8 +25,8 @@ public class PetStepDefinitions {
                 petApi = new PetApi();
         }
 
-        @Dado("que eu possua animais available")
-        public void queEuPossuaAnimaisAvailable() {
+        @Dado("que eu possua animais {word}")
+        public void queEuPossuaAnimaisAvailable(String status) {
                 /*
                 Pet pet = Pet.builder().build();
                 ObjectMapper mapper = new ObjectMapper();
@@ -38,7 +38,7 @@ public class PetStepDefinitions {
 
         @Quando("eu pesquiso por todos os animais {word}")
         public void queEuPesquisoPorTodosOsAnimaisAvailable(String status) {
-                List<Pet> actualPets = petApi.getPetsByStatus(status);
+                actualPets = petApi.getPetsByStatus(status);
         }
 
         @Entao("eu recebo a lista de animais available")
@@ -59,5 +59,15 @@ public class PetStepDefinitions {
                                         "size()", is(actualPets.size()),
                                         "findAll { it.status == '"+status+"' }.size()", is(actualPets.size())
                                 );
+        }
+
+        @Entao("eu recebo a lista com {} animal/animais")
+        public void euReceboAListaComAnimaisPending(int petsQuantity) {
+                assertThat(actualPets.size(), is(petsQuantity));
+        }
+
+        @Dado("que eu nao possua animais {word}")
+        public void queEuNaoPossuaAnimaisSold(String status) {
+                petApi.deletePetsByStatus(status);
         }
 }
