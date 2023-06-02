@@ -10,7 +10,7 @@ jobs:
     # See: https://circleci.com/docs/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:15.0.0
 
     working_directory: ~/repo
 
@@ -26,7 +26,7 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "app/build.gradle" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
@@ -35,7 +35,7 @@ jobs:
       - save_cache:
           paths:
             - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+          key: v1-dependencies-{{ checksum "app/build.gradle" }}
 
       - persist_to_workspace:
           root: .
@@ -43,7 +43,7 @@ jobs:
             - gradle
   sanityTests:
     docker:
-      - image: circleci/openjdk:8-jdk
+      - image: cimg/openjdk:15.0.0
       - image: swaggerapi/petstore3:unstable
     environment:
       ENV: circle
@@ -54,7 +54,7 @@ jobs:
           at: ~/repo
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-{{ checksum "app/build.gradle" }}
       - run:
           name: Sanity Cucumber Tests
           command: |
