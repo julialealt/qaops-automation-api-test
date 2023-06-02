@@ -1,5 +1,11 @@
-# Java Gradle CircleCI 2.0 configuration file
-# See: https://circleci.com/docs/language-java/
+containerSetup: &containerSetup
+  docker:
+    - image: cimg/openjdk:15.0.0
+    - image: swaggerapi/petstore3:unstable
+  environment:
+    ENV: circle
+  working_directory: ~/repo
+
 version: 2
 
 # Define a job to be invoked later in a workflow.
@@ -42,13 +48,20 @@ jobs:
           paths:
             - gradle
 
-  sanityTests:
+  unitTests:
     docker:
-      - image: cimg/openjdk:15.0.0
-      - image: swaggerapi/petstore3:unstable
-    environment:
-      ENV: circle
-    working_directory: ~/repo
+      - image: cimg/openjdk:15.0.1
+    steps:
+      - run: echo "Unit Test"
+
+  frontEndTests:
+    docker:
+      - image: cimg/openjdk:15.0.1
+    steps:
+      - run: echo "Front end Unit Test"
+
+  sanityTests:
+    <<: *containerSetup
     steps:
       - checkout
       - attach_workspace:
@@ -67,12 +80,7 @@ jobs:
           path: app/build/reports
 
   regressionTests:
-    docker:
-      - image: cimg/openjdk:15.0.0
-      - image: swaggerapi/petstore3:unstable
-    environment:
-      ENV: circle
-    working_directory: ~/repo
+    <<: *containerSetup
     steps:
       - checkout
       - attach_workspace:
@@ -95,9 +103,16 @@ workflows:
   qaops-bdd:
     jobs:
       - build
-      - sanityTests:
+      - unitTests:
           requires:
             - build
+      - frontEndTests:
+          requires:
+            - build
+      - sanityTests:
+          requires:
+            - unitTests
+            - frontEndTests
       - regressionTests:
           requires:
             - sanityTests
