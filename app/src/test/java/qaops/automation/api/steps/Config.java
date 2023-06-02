@@ -6,8 +6,11 @@ import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.http.ContentType;
+import org.aeonbits.owner.ConfigFactory;
 import qaops.automation.api.support.api.PetApi;
 import qaops.automation.api.support.api.UserApi;
+import qaops.automation.api.support.config.ConfigManager;
+import qaops.automation.api.support.config.ServerConfig;
 
 public class Config {
 
@@ -23,14 +26,15 @@ public class Config {
     public void setup() {
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 
-        RestAssured.baseURI = "http://localhost:12345";
-        RestAssured.basePath = "/api";
+        ServerConfig properties = ConfigManager.getConfiguration();
+
+        RestAssured.baseURI = String.format("%s:%d", properties.baseURI(), properties.port());
+        RestAssured.basePath = properties.basePath();
 
         RestAssured.requestSpecification = new RequestSpecBuilder().
                 addHeader("Authorization", getToken()).
                 setContentType(ContentType.JSON).
                 build();
-
     }
 
     private String getToken() {
