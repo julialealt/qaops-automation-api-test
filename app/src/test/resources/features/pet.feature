@@ -2,7 +2,7 @@
 
   Funcionalidade: Gerenciamento de um animal da Loja
 
-    Cenario: Lista somente animais disponíveis para a venda
+    Cenario: Lista somente animais disponiveis para a venda
       Dado que eu possua animais available
       Quando eu pesquiso por todos os animais available
       Entao eu recebo a lista de animais available
