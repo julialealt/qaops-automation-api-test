@@ -2,7 +2,7 @@
 
 Funcionalidade: Gerenciamento de pedidos da loja
 
-  @DeleteExtraPets @sanidade
+  @DeleteExtraPets @sanity
   Cenario: Cliente cria um pedido na loja
     Dado que eu possua animal available
     Quando faco o pedido desse animal

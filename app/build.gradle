@@ -37,3 +37,13 @@ java {
 }
 
 //dockerCompose.isRequiredBy(test)
+
+task apiTest(type: Test) {}
+
+task sanityTest(type: Test) {
+    environment("CUCUMBER_FILTER_TAGS", "@sanity")
+}
+
+task regressionTest(type: Test) {
+    systemProperty "cucumber.filter.tags", "not @wip and not @quarantine and not @sanity"
+}

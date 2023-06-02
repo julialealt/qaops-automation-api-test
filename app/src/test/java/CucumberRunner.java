@@ -4,7 +4,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        tags = "@sanidade and not @wip and not @quarantine",
+        tags = "not @wip and not @quarantine",
         plugin = {"pretty", "html:build/reports/feature.html"},
         features = {"src/test/resources/features"}
 )
