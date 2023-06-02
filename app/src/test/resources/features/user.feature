@@ -6,7 +6,7 @@ Funcionalidade: Gerenciamento de um usuário na Petstore
   Histórias do Jira
   Qualquer coisa que faça sentido pro negócio
 
-  @deleteAllUsers
+  @deleteAllUsers @sanidade
   Cenario: Cria usuario na loja refletindo o negocio
     Quando crio um usuario
     Entao o usuario eh salvo no sistema
