@@ -35,14 +35,20 @@ java {
     }
 }
 
-//dockerCompose.isRequiredBy(test)
+test {
+    systemProperty "cucumber.plugin", "pretty, html:${CUCUMBER_REPORT}"
+}
 
 task apiTest(type: Test) {}
 
 task sanityTest(type: Test) {
     environment("CUCUMBER_FILTER_TAGS", "@sanity")
+    environment("CUCUMBER_PLUGIN", "pretty, html:${CUCUMBER_REPORT}")
 }
 
 task regressionTest(type: Test) {
     systemProperty "cucumber.filter.tags", "not @wip and not @quarantine and not @sanity"
+    systemProperty "cucumber.plugin", "pretty, html:${CUCUMBER_REPORT}"
 }
+
+//dockerCompose.isRequiredBy(test)
